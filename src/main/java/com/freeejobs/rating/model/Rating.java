@@ -31,8 +31,8 @@ public class Rating {
 	@Column(name = "review")
 	private String review;
 	
-	@Column(name = "rating")
-	private int rating;
+	@Column(name = "ratingScale")
+	private int ratingScale;
 	
 	@Column(name = "dateCreated", columnDefinition="DATETIME")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -82,12 +82,12 @@ public class Rating {
 		this.review = review;
 	}
 
-	public int getRating() {
-		return rating;
+	public int getRatingScale() {
+		return ratingScale;
 	}
 
-	public void setRating(int rating) {
-		this.rating = rating;
+	public void setRatingScale(int ratingScale) {
+		this.ratingScale = ratingScale;
 	}
 
 	public Date getDateCreated() {
