@@ -13,11 +13,11 @@ import com.freeejobs.rating.model.Rating;
 public interface RatingRepository extends JpaRepository<Rating, Long> {
 	public Rating findById(long id);
 	public List<Rating> findAll();
-	
-	@Query("select r from Rating r where t.userId = ?1")
+
+	@Query("select r from Rating r where r.userId = ?1")
 	public List<Rating> getRatingsByUserId(long userId);
 
-	@Query("select r from Rating r where t.userId = ?1 and t.jobId=?2")
+	@Query("select r from Rating r where r.userId = ?1 and r.jobId=?2")
 	public List<Rating> getRatingsByUserIdJobId(long userId, long jobId);
 
 }
