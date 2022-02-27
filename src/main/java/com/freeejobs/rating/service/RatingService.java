@@ -21,11 +21,14 @@ public class RatingService {
 	@Autowired
 	private RatingRepository ratingRepository;
 	
-	public List<Rating> getRatingsByUserId(long userId) {
-		return ratingRepository.getRatingsByUserId(userId);
+	public List<Rating> getRatingsByTargetId(long targetId) {
+		return ratingRepository.getRatingsByTargetId(targetId);
 	}
-	public List<Rating> getRatingsByUserIdJobId(long userId, long jobId) {
-		return ratingRepository.getRatingsByUserIdJobId(userId,jobId);
+	public List<Rating> getRatingsByReviewerId(long reviewerId) {
+		return ratingRepository.getRatingsByReviewerId(reviewerId);
+	}
+	public List<Rating> getRatingsByReviewerIdJobId(long reviewerId, long jobId) {
+		return ratingRepository.getRatingsByReviewerIdJobId(reviewerId,jobId);
 	}
 
 	public Rating addRating(Rating rating) {

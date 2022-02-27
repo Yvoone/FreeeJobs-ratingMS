@@ -22,8 +22,11 @@ public class Rating {
 	@Column(name = "jobId")
 	private long jobId;
 	
-	@Column(name = "userId")
-	private long userId;
+	@Column(name = "reviewerId")
+	private long reviewerId;
+	
+	@Column(name = "targetId")
+	private long targetId;
 	
 	@Column(name = "reviewTitle")
 	private String reviewTitle;
@@ -58,12 +61,20 @@ public class Rating {
 		this.jobId = jobId;
 	}
 
-	public long getUserId() {
-		return userId;
+	public long getReviewerId() {
+		return reviewerId;
 	}
 
-	public void setUserId(long userId) {
-		this.userId = userId;
+	public void setReviewerId(long reviewerId) {
+		this.reviewerId = reviewerId;
+	}
+
+	public long getTargetId() {
+		return targetId;
+	}
+
+	public void setTargetId(long targetId) {
+		this.targetId = targetId;
 	}
 
 	public String getReviewTitle() {

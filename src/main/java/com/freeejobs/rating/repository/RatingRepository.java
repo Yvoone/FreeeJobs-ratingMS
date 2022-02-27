@@ -14,10 +14,13 @@ public interface RatingRepository extends JpaRepository<Rating, Long> {
 	public Rating findById(long id);
 	public List<Rating> findAll();
 
-	@Query("select r from Rating r where r.userId = ?1")
-	public List<Rating> getRatingsByUserId(long userId);
+	@Query("select r from Rating r where r.targetId = ?1")
+	public List<Rating> getRatingsByTargetId(long userId);
+	
+	@Query("select r from Rating r where r.reviewerId = ?1")
+	public List<Rating> getRatingsByReviewerId(long userId);
 
-	@Query("select r from Rating r where r.userId = ?1 and r.jobId=?2")
-	public List<Rating> getRatingsByUserIdJobId(long userId, long jobId);
+	@Query("select r from Rating r where r.reviewerId = ?1 and r.jobId=?2")
+	public List<Rating> getRatingsByReviewerIdJobId(long reviewerId, long jobId);
 
 }
