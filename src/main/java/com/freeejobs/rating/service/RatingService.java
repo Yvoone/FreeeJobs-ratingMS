@@ -37,5 +37,8 @@ public class RatingService {
 		return ratingRepository.save(rating);
 	}
 
+	public boolean isId(String id) {
+		return String.valueOf(id).matches("[0-9]+");
+	}
 }
 
