@@ -116,6 +116,13 @@ public class Rating {
 	public void setDateUpdated(Date dateUpdated) {
 		this.dateUpdated = dateUpdated;
 	}
+
+	@Override
+	public String toString() {
+		return "Rating [jobId=" + jobId + ", reviewerId=" + reviewerId + ", targetId=" + targetId + ", reviewTitle="
+				+ reviewTitle + ", review=" + review + ", ratingScale=" + ratingScale + ", dateCreated=" + dateCreated
+				+ ", dateUpdated=" + dateUpdated + "]";
+	}
 	
 
 }
