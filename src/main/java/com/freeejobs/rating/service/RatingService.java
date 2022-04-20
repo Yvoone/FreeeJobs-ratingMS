@@ -3,6 +3,7 @@ package com.freeejobs.rating.service;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,11 @@ public class RatingService {
 	public boolean isId(String id) {
 		return String.valueOf(id).matches("[0-9]+");
 	}
+	
+	public boolean isBlank(String value) {
+		return StringUtils.isBlank(value);
+	}
+	
 	public RatingAudit insertAudit(Rating rating, String opsType) {
 		RatingAudit newAuditEntry = new RatingAudit();
 		newAuditEntry.setAuditData(rating.toString());

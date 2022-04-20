@@ -170,10 +170,10 @@ public class RatingController {
 				return resp;
 			}
 			//validate fields
-			if(StringUtils.isBlank(rating.getReviewTitle())) {
+			if(ratingService.isBlank(rating.getReviewTitle())) {
 				errors.add("Invalid title value");
 			}
-			if(StringUtils.isBlank(rating.getReview())) {
+			if(ratingService.isBlank(rating.getReview())) {
 				errors.add("Invalid review value");
 			}
 			if(!ratingService.isId(String.valueOf(rating.getJobId()))) {
