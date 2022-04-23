@@ -5,6 +5,11 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+
 
 @Configuration
 @EnableWebSecurity
@@ -13,14 +18,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 )
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     
-    @Override
+	@Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable().
-                authorizeRequests()
-                .antMatchers("/**").permitAll()
-                .anyRequest().authenticated();
-        
+    	//CookieCsrfTokenRepository tokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
+        //tokenRepository.setCookiePath("/");
+        http.httpBasic().and().csrf().ignoringAntMatchers()
+        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+
     }
-     
      
 }
