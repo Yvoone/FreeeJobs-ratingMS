@@ -8,7 +8,7 @@ class RatingApplicationTests {
 
 	@Test
 	void contextLoads() {
-		//Test
+		/* RatingApplication.main(new String[] {}); */
 	}
 
 }
