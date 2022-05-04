@@ -1,14 +1,14 @@
-package com.freeejobs.rating;
+// package com.freeejobs.rating;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+// import org.junit.jupiter.api.Test;
+// import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class RatingApplicationTests {
+// @SpringBootTest
+// class RatingApplicationTests {
 
-	@Test
-	void contextLoads() {
-		/* RatingApplication.main(new String[] {}); */
-	}
+// 	@Test
+// 	void contextLoads() {
+// 		/* RatingApplication.main(new String[] {}); */
+// 	}
 
-}
+// }
