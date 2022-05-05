@@ -26,7 +26,7 @@ import com.freeejobs.rating.service.RatingService;
 
 @RestController
 @RequestMapping(value="/rating")
-@CrossOrigin
+@CrossOrigin("https://freeejobs-web.herokuapp.com")
 public class RatingController {
 	
 	private static Logger LOGGER = LogManager.getLogger(RatingController.class);
