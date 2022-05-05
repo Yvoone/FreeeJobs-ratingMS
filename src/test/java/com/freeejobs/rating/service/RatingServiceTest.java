@@ -136,7 +136,7 @@ public class RatingServiceTest {
         assertNotNull(ratingDTO.getDateUpdated());
         assertNotNull(resRating.getDateCreated());
         assertNotNull(resRating.getDateUpdated());
-        assertNotNull(ratingDTO.getId());
+        assertEquals(ratingDTO.getId(), Long.valueOf(1));
     }
 
     @Test
