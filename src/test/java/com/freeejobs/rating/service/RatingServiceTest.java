@@ -2,6 +2,7 @@ package com.freeejobs.rating.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -20,6 +21,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentMatcher;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -35,6 +38,7 @@ import com.freeejobs.rating.WebConfig;
 import com.freeejobs.rating.constants.AuditEnum;
 import com.freeejobs.rating.controller.RatingController;
 import com.freeejobs.rating.controller.RatingFixture;
+import com.freeejobs.rating.dto.RatingDTO;
 import com.freeejobs.rating.model.RatingAudit;
 import com.freeejobs.rating.repository.RatingAuditRepository;
 import com.freeejobs.rating.repository.RatingRepository;
@@ -57,7 +61,11 @@ public class RatingServiceTest {
 	@InjectMocks
     private RatingService ratingService;
 	
+	@Mock
+    private RatingService ratingServiceMock;
+	
 	private Rating rating;
+	private RatingDTO ratingDTO;
 	private List<Rating> ratings;
 	
 	private RatingAudit ratingAudit;
@@ -67,6 +75,7 @@ public class RatingServiceTest {
 	@BeforeEach
     void setUp() {
         rating = RatingFixture.createRating();
+        ratingDTO = RatingFixture.createRatingDTO();
         ratings = RatingFixture.createRatingList();
         ratingAudit = RatingFixture.createRatingAudit();
     }
@@ -108,22 +117,26 @@ public class RatingServiceTest {
     @Test
     void testAddRating() {    
 		Date date = new Date();
-        rating.setDateCreated(date);
-        rating.setDateUpdated(date);
-        when(ratingRepository.save(rating)).thenReturn(rating);
+		ratingDTO.setDateCreated(date);
+		ratingDTO.setDateUpdated(date);
+
+		when(ratingRepository.save(ratingDTO)).thenReturn(rating);
         ratingAudit.setOpsType(AuditEnum.INSERT.getCode());
         Mockito.lenient().when(ratingService.insertAudit(rating, AuditEnum.INSERT.getCode())).thenReturn(ratingAudit);
 
-        Rating resRating = ratingService.addRating(rating);
-        verify(ratingRepository, Mockito.times(1)).save(rating);
+        Rating resRating = ratingService.addRating(ratingDTO);
+        verify(ratingRepository, Mockito.times(1)).save(ratingDTO);
 
-        assertEquals(resRating.getJobId(), rating.getJobId());
-        assertEquals(resRating.getReviewerId(), rating.getReviewerId());
-        assertEquals(resRating.getTargetId(), rating.getTargetId());
-        assertEquals(resRating.getReviewTitle(), rating.getReviewTitle());
-        assertEquals(resRating.getReview(), rating.getReview());
-        assertEquals(resRating.getDateCreated(), rating.getDateCreated());
-        assertEquals(resRating.getDateUpdated(), rating.getDateUpdated());
+        assertEquals(resRating.getJobId(), ratingDTO.getJobId());
+        assertEquals(resRating.getReviewerId(), ratingDTO.getReviewerId());
+        assertEquals(resRating.getTargetId(), ratingDTO.getTargetId());
+        assertEquals(resRating.getReviewTitle(), ratingDTO.getReviewTitle());
+        assertEquals(resRating.getReview(), ratingDTO.getReview());
+        assertNotNull(ratingDTO.getDateCreated());
+        assertNotNull(ratingDTO.getDateUpdated());
+        assertNotNull(resRating.getDateCreated());
+        assertNotNull(resRating.getDateUpdated());
+        assertNotNull(ratingDTO.getId());
     }
 
     @Test

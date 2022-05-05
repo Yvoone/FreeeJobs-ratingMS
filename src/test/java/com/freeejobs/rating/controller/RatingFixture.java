@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import com.freeejobs.rating.model.RatingAudit;
 import com.freeejobs.rating.response.Status;
+import com.freeejobs.rating.dto.RatingDTO;
 import com.freeejobs.rating.model.Rating;
 
 public class RatingFixture {
@@ -48,6 +49,22 @@ public class RatingFixture {
         return ratings;
     }
 	
+	public static RatingDTO createRatingDTO() {
+
+		RatingDTO rating = new RatingDTO();
+        rating.setId(Long.valueOf(1));
+        rating.setJobId(Long.valueOf(1));
+        rating.setReviewerId(1);
+        rating.setTargetId(2);
+        rating.setReviewTitle("Review Title Test");
+        rating.setReview("Test Review");
+        rating.setRatingScale(5);
+        rating.setDateCreated(new Date());
+        rating.setDateUpdated(new Date());
+        
+
+        return rating;
+    }
 	// public static List<JobListing> createOpenJoblistingList() {
 
     //     List<JobListing> listings = new ArrayList<>();

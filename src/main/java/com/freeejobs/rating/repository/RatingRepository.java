@@ -6,11 +6,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.freeejobs.rating.dto.RatingDTO;
 import com.freeejobs.rating.model.Rating;
 
 
 @Repository
 public interface RatingRepository extends JpaRepository<Rating, Long> {
+	public Rating save(RatingDTO ratingDTO);
 	public Rating findById(long id);
 	public List<Rating> findAll();
 

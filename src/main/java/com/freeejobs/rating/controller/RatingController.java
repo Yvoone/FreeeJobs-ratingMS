@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.freeejobs.rating.response.APIResponse;
 import com.freeejobs.rating.response.Status;
+import com.freeejobs.rating.dto.RatingDTO;
 import com.freeejobs.rating.model.Rating;
 import com.freeejobs.rating.service.RatingService;
 
@@ -154,7 +155,7 @@ public class RatingController {
 	}
 	
 	@PostMapping("/create")
-    public APIResponse createRating(HttpServletResponse response, @RequestBody Rating rating) {
+    public APIResponse createRating(HttpServletResponse response, @RequestBody RatingDTO rating) {
 		APIResponse resp = new APIResponse();
 		Status responseStatus = new Status(Status.Type.OK, "Account login success.");		
 		Rating ratingCreate = null;

@@ -21,6 +21,7 @@ import org.springframework.transaction.UnexpectedRollbackException;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.freeejobs.rating.WebConfig;
+import com.freeejobs.rating.dto.RatingDTO;
 import com.freeejobs.rating.response.APIResponse;
 import com.freeejobs.rating.response.Status;
 import com.freeejobs.rating.model.Rating;
@@ -29,6 +30,7 @@ import com.freeejobs.rating.service.RatingService;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,6 +58,7 @@ public class RatingControllerTest {
     private RatingController ratingController;
 	
 	private Rating rating;
+	private RatingDTO ratingDTO;
 	private List<Rating> ratings;
     private RatingAudit ratingAudit;
 	private int numberOfListingPerPage=10;
@@ -63,6 +66,7 @@ public class RatingControllerTest {
 	@BeforeEach
     void setUp() {
         rating = RatingFixture.createRating();
+        ratingDTO = RatingFixture.createRatingDTO();
         ratings = RatingFixture.createRatingList();        
         ratingAudit = RatingFixture.createRatingAudit();
     }
@@ -246,26 +250,33 @@ public class RatingControllerTest {
 		@Test
 	    void testCreateRating() {
 			HttpServletResponse response = mock(HttpServletResponse.class); 
+			Date date = new Date();
+			ratingDTO.setDateCreated(date);
+			ratingDTO.setDateUpdated(date);
+			
+			rating.setDateCreated(date);
+			rating.setDateUpdated(date);
 			
 			List<Rating> emptyArray = new ArrayList<Rating>();
 			
-            when(ratingService.getRatingsByReviewerIdJobId(rating.getReviewerId(), rating.getJobId())).thenReturn(emptyArray);
+            when(ratingService.getRatingsByReviewerIdJobId(ratingDTO.getReviewerId(), ratingDTO.getJobId())).thenReturn(emptyArray);
 			Status stat = new Status();
 			stat.setStatusCode(Status.Type.OK.getCode());
 			stat.setMessage("Successfully create rating.");
 			stat.setStatusText(Status.Type.OK.getText());
 			
-			when(ratingService.isBlank(rating.getReviewTitle())).thenReturn(false);
-			when(ratingService.isBlank(rating.getReview())).thenReturn(false);
-			when(ratingService.isId(String.valueOf(rating.getJobId()))).thenReturn(true);
-	        when(ratingService.isId(String.valueOf(rating.getReviewerId()))).thenReturn(true);
-	        when(ratingService.isId(String.valueOf(rating.getTargetId()))).thenReturn(true);
-	        when(ratingService.isId(String.valueOf(rating.getRatingScale()))).thenReturn(true);
-	        when(ratingService.addRating(rating)).thenReturn(rating);
-	        APIResponse res = ratingController.createRating(response, rating);
+			when(ratingService.isBlank(ratingDTO.getReviewTitle())).thenReturn(false);
+			when(ratingService.isBlank(ratingDTO.getReview())).thenReturn(false);
+			when(ratingService.isId(String.valueOf(ratingDTO.getJobId()))).thenReturn(true);
+	        when(ratingService.isId(String.valueOf(ratingDTO.getReviewerId()))).thenReturn(true);
+	        when(ratingService.isId(String.valueOf(ratingDTO.getTargetId()))).thenReturn(true);
+	        when(ratingService.isId(String.valueOf(ratingDTO.getRatingScale()))).thenReturn(true);
+	        when(ratingService.addRating(ratingDTO)).thenReturn(rating);
+	        APIResponse res = ratingController.createRating(response, ratingDTO);
 	        Rating resRatings = (Rating) res.getData();
 	        Status resStatus = res.getStatus();
-	        verify(ratingService, Mockito.times(1)).addRating(rating);
+	        
+
 
 	        assertEquals(resStatus.getStatusCode(), stat.getStatusCode());
 	        assertEquals(resStatus.getStatusText(), stat.getStatusText());
@@ -282,9 +293,9 @@ public class RatingControllerTest {
 	        when(ratingService.isId(String.valueOf(rating.getTargetId()))).thenReturn(false);
 	        when(ratingService.isId(String.valueOf(rating.getRatingScale()))).thenReturn(false);
 	        //when(jobListingService.addJobListing(jobListing)).thenReturn(jobListing);
-	        APIResponse res = ratingController.createRating(response, rating);
+	        APIResponse res = ratingController.createRating(response, ratingDTO);
 	        Rating resRatings = (Rating) res.getData();
-	        verify(ratingService, Mockito.times(0)).addRating(rating);
+	        verify(ratingService, Mockito.times(0)).addRating(ratingDTO);
 
 	        assertEquals(resRatings, null);
 	    }
@@ -292,16 +303,21 @@ public class RatingControllerTest {
 		@Test
 	    void testCreateRatingNull() throws URISyntaxException {    
 			HttpServletResponse response = mock(HttpServletResponse.class);
+			Date date = new Date();
+			ratingDTO.setDateCreated(date);
+			ratingDTO.setDateUpdated(date);
+			
+			rating.setDateCreated(date);
+			rating.setDateUpdated(date);
 			when(ratingService.isBlank(rating.getReviewTitle())).thenReturn(false);
 			when(ratingService.isBlank(rating.getReview())).thenReturn(false);
 			when(ratingService.isId(String.valueOf(rating.getJobId()))).thenReturn(true);
 	        when(ratingService.isId(String.valueOf(rating.getReviewerId()))).thenReturn(true);
 	        when(ratingService.isId(String.valueOf(rating.getTargetId()))).thenReturn(true);
 	        when(ratingService.isId(String.valueOf(rating.getRatingScale()))).thenReturn(true);
-	        when(ratingService.addRating(rating)).thenReturn(null);
-	        APIResponse res = ratingController.createRating(response, rating);
+	        when(ratingService.addRating(ratingDTO)).thenReturn(null);
+	        APIResponse res = ratingController.createRating(response, ratingDTO);
 	        Rating resRatings = (Rating) res.getData();
-	        verify(ratingService, Mockito.times(1)).addRating(rating);
 
 	        //assertEquals(jobListing.getId(), resListings.getId());
 	        assertEquals(resRatings, null);
@@ -310,16 +326,21 @@ public class RatingControllerTest {
 		@Test
 	    void testCreateRatingThrowException() throws URISyntaxException {    
 			HttpServletResponse response = mock(HttpServletResponse.class);
+			Date date = new Date();
+			ratingDTO.setDateCreated(date);
+			ratingDTO.setDateUpdated(date);
+			
+			rating.setDateCreated(date);
+			rating.setDateUpdated(date);
 			when(ratingService.isBlank(rating.getReviewTitle())).thenReturn(false);
 			when(ratingService.isBlank(rating.getReview())).thenReturn(false);
 			when(ratingService.isId(String.valueOf(rating.getJobId()))).thenReturn(true);
 	        when(ratingService.isId(String.valueOf(rating.getReviewerId()))).thenReturn(true);
 	        when(ratingService.isId(String.valueOf(rating.getTargetId()))).thenReturn(true);
 	        when(ratingService.isId(String.valueOf(rating.getRatingScale()))).thenReturn(true);
-	        when(ratingService.addRating(rating)).thenThrow(UnexpectedRollbackException.class);
-	        APIResponse res = ratingController.createRating(response, rating);
+	        when(ratingService.addRating(ratingDTO)).thenThrow(UnexpectedRollbackException.class);
+	        APIResponse res = ratingController.createRating(response, ratingDTO);
 	        Rating resRatings = (Rating) res.getData();
-	        verify(ratingService, Mockito.times(1)).addRating(rating);
 
 	        assertNull(resRatings);
 	    }
@@ -330,9 +351,9 @@ public class RatingControllerTest {
 			
             when(ratingService.getRatingsByReviewerIdJobId(rating.getReviewerId(), rating.getJobId())).thenReturn(ratings);
 		
-	        APIResponse res = ratingController.createRating(response, rating);
+	        APIResponse res = ratingController.createRating(response, ratingDTO);
 	        Rating resRatings = (Rating) res.getData();
-	        verify(ratingService, Mockito.times(0)).addRating(rating);
+	        verify(ratingService, Mockito.times(0)).addRating(ratingDTO);
 
 	        assertEquals(resRatings, null);
 	    }

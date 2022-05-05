@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.freeejobs.rating.constants.AuditEnum;
+import com.freeejobs.rating.dto.RatingDTO;
 import com.freeejobs.rating.model.Rating;
 import com.freeejobs.rating.model.RatingAudit;
 import com.freeejobs.rating.repository.RatingAuditRepository;
@@ -38,7 +39,7 @@ public class RatingService {
 		return ratingRepository.getRatingsByReviewerIdJobId(reviewerId,jobId);
 	}
 
-	public Rating addRating(Rating rating) {
+	public Rating addRating(RatingDTO rating) {
 		rating.setDateCreated(new Date());
 		rating.setDateUpdated(new Date());
 		Rating addedRating = ratingRepository.save(rating);
