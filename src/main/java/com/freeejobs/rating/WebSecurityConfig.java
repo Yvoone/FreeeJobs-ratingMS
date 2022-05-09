@@ -22,7 +22,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
     	//CookieCsrfTokenRepository tokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
         //tokenRepository.setCookiePath("/");
-        http.httpBasic().and().csrf()
+        http.httpBasic().and().csrf().ignoringAntMatchers("/rating/android/**")
         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 
     }

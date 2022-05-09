@@ -154,7 +154,7 @@ public class RatingController {
 		return resp;
 	}
 	
-	@PostMapping("/create")
+	@PostMapping({"/create","/android/create"})
     public APIResponse createRating(HttpServletResponse response, @RequestBody RatingDTO rating) {
 		APIResponse resp = new APIResponse();
 		Status responseStatus = new Status(Status.Type.OK, "Account login success.");		
