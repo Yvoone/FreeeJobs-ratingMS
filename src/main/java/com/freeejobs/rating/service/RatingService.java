@@ -40,9 +40,16 @@ public class RatingService {
 	}
 
 	public Rating addRating(RatingDTO rating) {
-		rating.setDateCreated(new Date());
-		rating.setDateUpdated(new Date());
-		Rating addedRating = ratingRepository.save(rating);
+		Rating addRating = new Rating();
+		addRating.setJobId(rating.getJobId());
+		addRating.setRatingScale(rating.getRatingScale());
+		addRating.setReview(rating.getReview());
+		addRating.setReviewTitle(rating.getReviewTitle());
+		addRating.setTargetId(rating.getTargetId());
+		addRating.setReviewerId(rating.getReviewerId());
+		addRating.setDateCreated(new Date());
+		addRating.setDateUpdated(new Date());
+		Rating addedRating = ratingRepository.save(addRating);
 		insertAudit(addedRating, AuditEnum.INSERT.getCode());
 		return addedRating;
 		

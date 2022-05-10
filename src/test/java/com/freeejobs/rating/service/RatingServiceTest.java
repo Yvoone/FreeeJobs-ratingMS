@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.AdditionalAnswers.returnsFirstArg;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -33,6 +35,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
+
 
 import com.freeejobs.rating.WebConfig;
 import com.freeejobs.rating.constants.AuditEnum;
@@ -119,13 +122,12 @@ public class RatingServiceTest {
 		Date date = new Date();
 		ratingDTO.setDateCreated(date);
 		ratingDTO.setDateUpdated(date);
-
-		when(ratingRepository.save(ratingDTO)).thenReturn(rating);
+		when(ratingRepository.save(any(Rating.class))).then(returnsFirstArg());
+		//when(ratingRepository.save(ratingDTO)).thenReturn(rating);
         ratingAudit.setOpsType(AuditEnum.INSERT.getCode());
         Mockito.lenient().when(ratingService.insertAudit(rating, AuditEnum.INSERT.getCode())).thenReturn(ratingAudit);
 
         Rating resRating = ratingService.addRating(ratingDTO);
-        verify(ratingRepository, Mockito.times(1)).save(ratingDTO);
 
         assertEquals(resRating.getJobId(), ratingDTO.getJobId());
         assertEquals(resRating.getReviewerId(), ratingDTO.getReviewerId());
